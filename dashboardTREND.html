@@ -1,307 +1,39 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Uzbekistan 2026 Higher Education Revolution Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>EduAnalysis Uzbekistan 2026</title>
     <style>
-        :root {
-            --primary: #2563eb; /* Blue from infographic */
-            --secondary: #0d9488; /* Teal from infographic */
-            --bg: #f8fafc;
-            --text: #1e293b;
-            --font-main: 'Inter', system-ui, sans-serif;
-        }
+        :root { --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; margin: 0; padding: 40px; }
+        h1 { text-align: center; color: #0f172a; margin-bottom: 40px; font-size: 2.5em; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; max-width: 1400px; margin: 0 auto; }
+        .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s ease; border: 1px solid #e2e8f0; position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--primary); }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(37, 99, 235, 0.1); border-color: var(--primary); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25em; color: #1e293b; }
+        .card .stat { font-size: 2em; font-weight: 800; color: var(--primary); margin: 15px 0; }
+        .tag { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 9999px; }
         
-        body {
-            font-family: var(--font-main);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            margin: 0;
-            padding: 40px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
-        header h1 {
-            color: #0f172a;
-            margin: 0;
-            font-size: 2.8em;
-            font-weight: 800;
-        }
-        
-        header p {
-            color: #64748b;
-            font-size: 1.2em;
-            margin-top: 10px;
-        }
-        
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Стили для карточек (Cards) */
-        .dashboard-card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.1);
-            border-color: var(--primary);
-        }
-        
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5em;
-        }
-        
-        /* Цвета иконок */
-        .icon-blue { background: #dbeafe; color: var(--primary); }
-        .icon-teal { background: #ccfbf1; color: var(--secondary); }
-        
-        .card-content h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.25em;
-            color: #1e293b;
-        }
-        
-        .card-content p {
-            margin: 0;
-            color: #64748b;
-            font-size: 1em;
-        }
-        
-        /* Внутренние "мини-статистики" в карточках */
-        .card-stats {
-            margin-top: 15px;
-            display: flex;
-            gap: 20px;
-            font-size: 0.9em;
-            color: #64748b;
-        }
-        .stat-year-comparison { font-weight: 600; color: #1e293b; }
-        
-        /* Стили модального окна */
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 100;
-        }
-        
-        #modal {
-            display: none;
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%; max-width: 800px;
-            max-height: 85vh;
-            background: white;
-            border-radius: 24px;
-            padding: 40px;
-            z-index: 101;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-        }
-        
-        .modal-header {
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .modal-title {
-            font-size: 2.2em;
-            font-weight: 800;
-            color: #0f172a;
-            margin: 0;
-        }
-        
-        .modal-content {
-            font-size: 1.15em;
-            color: #475569;
-            line-height: 1.6;
-        }
-        
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100; }
+        #modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 800px; max-height: 85vh; background: white; border-radius: 24px; padding: 40px; z-index: 101; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .modal-header { border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; margin-bottom: 25px; }
+        .modal-title { font-size: 2em; font-weight: 800; color: #0f172a; margin: 0; }
+        .modal-content { font-size: 1.1em; color: #475569; }
         .modal-content b { color: #0f172a; }
-        
-        .close-btn {
-            position: absolute;
-            top: 20px; right: 25px;
-            font-size: 30px;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-        
+        .modal-content ul { padding-left: 20px; }
+        .modal-content li { margin-bottom: 10px; }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 30px; cursor: pointer; color: #94a3b8; }
         .close-btn:hover { color: #1e293b; }
-        
-        .source-link {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 30px;
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        
+        .source-link { display: inline-flex; align-items: center; margin-top: 30px; padding: 12px 24px; background: var(--primary); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; transition: background 0.2s; }
         .source-link:hover { background: #1d4ed8; }
-        
-        /* Адаптивность для мобильных устройств */
-        @media (max-width: 900px) {
-            .main-grid { grid-template-columns: 1fr; }
-            header h1 { font-size: 2.2em; }
-        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Higher Education Trends Uzbekistan 2026</h1>
-    <p>Нажмите на раздел для подробного разбора тренда, цифр и подтверждающих фактов.</p>
-</header>
+<h1>📊 Higher Education Trends Uzbekistan 2026</h1>
 
-<main>
-    <div class="main-grid">
-        <div class="dashboard-card" onclick="openModal('students_redirected')">
-            <div class="card-icon icon-blue">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M12 2C13.6569 2 15 3.34315 15 5C15 6.65685 13.6569 8 12 8C10.3431 8 9 6.65685 9 5C9 3.34315 10.3431 2 12 2Z" fill="currentColor"/><path opacity="0.5" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="currentColor"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>400,000 students redirected to technical colleges</h3>
-                <p>This strategic 'filter' reduces pressure on universities, making them more selective and focused on ...</p>
-                <div class="card-stats">
-                    <span>Target: 400,000 students</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-card" onclick="openModal('private_universities')">
-            <div class="card-icon icon-blue">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M11 20H13V18H11V20Z" fill="currentColor"/><path d="M22 21H2V3H22V21Z" fill="currentColor"/><path opacity="0.5" d="M2 13H22M6 21V3M10 21V3M14 21V3M18 21V3M6 7H18M6 10H18M6 16H18M6 19H18" stroke="white" stroke-width="2"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>Private universities grew since 2017</h3>
-                <p>From only 7 in 2017 to 99 in 2026.</p>
-                <div class="card-stats">
-                    <span>2017: <span class="stat-year-comparison">7</span></span>
-                    <span>2026: <span class="stat-year-comparison">99</span></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-card" onclick="openModal('ban_on_sirtqi')">
-            <div class="card-icon icon-blue">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" fill="currentColor"/><path opacity="0.5" d="M12 7V17M12 17V12M12 17H7M12 17H17" stroke="white" stroke-width="2"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>Ban on 'sirtqi' (correspondence) learning by 2025/26</h3>
-                <p>Replaced by distance learning with strict Face ID monitoring.</p>
-                <div class="card-stats">
-                    <span>Timeframe: <span class="stat-year-comparison">by 2025/26</span></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-card" onclick="openModal('ai_leaders')">
-            <div class="card-icon icon-teal">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="currentColor"/><path opacity="0.5" d="M12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7ZM12 14.5C13.3807 14.5 14.5 13.3807 14.5 12C14.5 10.6193 13.3807 9.5 12 9.5C10.6193 9.5 9.5 10.6193 9.5 12C9.5 13.3807 10.6193 14.5 12 14.5Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>5 Million AI Leaders' initiative launched</h3>
-                <p>5 Million AI Leaders initiative launched.</p>
-                <div class="card-stats">
-                    <span>Target: 5 Million Leaders</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-card" onclick="openModal('global_courses')">
-            <div class="card-icon icon-teal">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="currentColor"/><path opacity="0.5" d="M12 21V12H3C3 16.9706 7.02944 21 12 21ZM21 12H12V3C16.9706 3 21 7.02944 21 12ZM12 3V12H21C21 7.02944 16.9706 3 12 3ZM3 12V3H12C12 7.02944 7.02944 12 3 12Z" fill="white"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>Global courses now in Uzbek language</h3>
-                <p>Fully translated into the Uzbek language.</p>
-                <div class="card-stats">
-                    <span>Platforms: Coursera / edX</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-card" onclick="openModal('dual_education')">
-            <div class="card-icon icon-teal">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" fill="currentColor"/><path opacity="0.5" d="M12 17V7H17M12 7L7 12L12 17" stroke="white" stroke-width="2"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>5x growth in Dual Education enrollment</h3>
-                <p>Students now split their time 50/50 between the classroom and actual workplaces.</p>
-                <div class="card-stats">
-                    <span>Growth: <span class="stat-year-comparison">5x growth</span></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-card" onclick="openModal('qs_top_1000')">
-            <div class="card-icon icon-teal">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="currentColor"/><path opacity="0.5" d="M12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7Z" fill="currentColor"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>7 universities enter the Global QS Top 1000</h3>
-                <p>7 universities enter the Global QS Top 1000.</p>
-                <div class="card-stats">
-                    <span>2017: <span class="stat-year-comparison">0</span></span>
-                    <span>2026: <span class="stat-year-comparison">7</span></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-card" onclick="openModal('unesco_center')">
-            <div class="card-icon icon-teal">
-                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="currentColor"/><path opacity="0.5" d="M2 13H22M6 21V3M10 21V3M14 21V3M18 21V3" stroke="white" stroke-width="2"/></svg>
-            </div>
-            <div class="card-content">
-                <h3>New UNESCO center facilitates international recognition of Uzbek diplomas</h3>
-                <p>Facilitates international recognition of Uzbek diplomas.</p>
-                <div class="card-stats">
-                    <span>Organization: UNESCO</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</main>
+<div class="grid" id="trendGrid"></div>
 
 <div id="overlay" onclick="closeModal()"></div>
 <div id="modal">
@@ -314,24 +46,165 @@
 </div>
 
 <script>
-    const trendsData = {'students_redirected': {'title': '400,000 students redirected to technical colleges', 'description': "This strategic 'filter' reduces pressure on universities, making them more selective and focused on quality over quantity. This shift aims to better align educational output with labor market needs.", 'icon': 'funnel', 'stat_main': '400,000', 'stat_sub': 'students redirected', 'link': 'https://www.uzdaily.uz/ru/2026-i-god-obucheniia-molodezhi-sovremennym-professiiam/'}, 'private_universities': {'title': 'Private universities grew since 2017', 'description': 'There were only 7 institutions in 2017. By 2026, the count has risen to 99, capturing nearly 50% of applicants, primarily in high-demand fields like business, medicine, and technology.', 'icon': 'buildings', 'stat_2017': '7', 'stat_2026': '99', 'link': 'https://review.uz/post/infografika-2017-2024-yillarda-talim-sohasini-rivojlantirishning-asosiy-korsatkichlari'}, 'ban_on_sirtqi': {'title': "Ban on 'sirtqi' (correspondence) learning by 2025/26", 'description': 'Traditional correspondence is being phased out and replaced by interactive distance learning. To ensure academic integrity, this new form uses strict Face ID monitoring during examinations.', 'icon': 'computer_lock', 'stat_main': 'Ban', 'stat_sub': "on 'sirtqi' learning", 'link': 'https://www.gazeta.uz/ru/2025/06/26/students/'}, 'ai_leaders': {'title': "5 Million AI Leaders' initiative launched", 'description': 'This ambitious national program is integrating artificial intelligence modules into all fields of study. Students must complete foundational AI courses to graduate, aiming to create a workforce ready for the digital economy.', 'icon': 'brain_chip', 'stat_main': '5 Million', 'stat_sub': 'AI Leaders', 'link': 'https://fergana.agency/news/144419/'}, 'global_courses': {'title': 'Global courses are being fully translated into the Uzbek language', 'description': 'Courses from top-tier platforms like Coursera and edX are now accessible in Uzbek, lowering language barriers and giving students direct access to world-class academic content.', 'icon': 'globe_translation', 'stat_main': 'Coursera / edX', 'stat_sub': 'Uzbek translation', 'link': 'https://www.digital.gov.uz/ru/edu/news/view/138354'}, 'dual_education': {'title': '5x growth in Dual Education enrollment', 'description': "The innovative 'Learning by Doing' model has seen exponential growth. Students now split their time 50/50 between the classroom and actual workplaces, ensuring a seamless transition from education to employment.", 'icon': 'classroom_worker', 'stat_main': '5x growth', 'stat_sub': 'in enrollment', 'link': 'https://www.uzdaily.uz/ru/2026-i-god-obucheniia-molodezhi-sovremennym-professiiam/'}, 'qs_top_1000': {'title': '7 universities enter the Global QS Top 1000', 'description': 'Uzbekistan marks a major academic milestone as 7 of its universities have entered the prestigious global ranking. This highlights the focus on improving research output, international faculty, and overall academic reputation.', 'icon': 'globe_medal', 'stat_2017': '0', 'stat_2026': '7', 'link': 'https://nuu.uz/ru/qs-sustainability-rankings-2026-ozmu-top-1000-talikda/'}, 'unesco_center': {'title': 'New UNESCO center facilitates international recognition of Uzbek diplomas', 'description': 'The establishment of a specialized UNESCO center is key to globalizing Uzbek higher education. It works to align standards and streamline the mutual recognition of degrees with countries in Europe and Asia.', 'icon': 'unesco_logo', 'stat_main': 'UNESCO', 'stat_sub': 'Diplomas recognition', 'link': 'https://podrobno.uz/cat/obchestvo/uzbekistan-i-yunesko-zapustyat-v-tashkente-novyy-mezhdunarodnyy-tsentr/'}};
-
-    function openModal(trendKey) {
-        const trend = trendsData[trendKey];
-        if (!trend) return;
-
-        document.getElementById('mTitle').innerText = trend.title;
-        document.getElementById('mContent').innerText = trend.description;
-        document.getElementById('mLink').innerHTML = `<a href="${trend.link}" target="_blank" class="source-link">Открыть первоисточник (Uzdaily.uz / Gazeta.uz) →</a>`;
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('modal').style.display = 'block';
+const trends = [
+    {
+        title: "Доступность и «фильтрация» потока",
+        stat: "45% Охват",
+        tag: "Демография",
+        desc: `<b>Суть тренда:</b> Государство достигло цели в 1,5 млн студентов, но в сезоне 2025-26 стратегия сменилась с «количества» на «селективность». <br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>Около <b>400 000 выпускников школ</b> теперь направляются напрямую в техникумы и колледжи, минуя вузовский этап.</li>
+                <li>Это позволило снизить наплыв в вузы, сделав высшее образование более осознанным и качественным.</li>
+                <li><b>Цифра:</b> Число абитуриентов в госвузы в 2025/26 снизилось до 732 тыс. чел. (минимум за 7 лет).</li>
+               </ul>`,
+        link: "https://www.uzdaily.uz/ru/2026-i-god-obucheniia-molodezhi-sovremennym-professiiam/"
+    },
+    {
+        title: "Взлет частного сектора",
+        stat: "99 Вузов",
+        tag: "Рынок",
+        desc: `<b>Суть тренда:</b> Полная демонополизация рынка. Частный сектор перестал быть «запасным вариантом» и стал основным конкурентом государства.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>Количество негосударственных вузов выросло до <b>99</b> (в 2017 году их было всего 1).</li>
+                <li>Частные вузы забирают на себя почти <b>50% первокурсников</b>, особенно в бизнес-образовании и медицине.</li>
+                <li>Происходит консолидация: мелкие игроки закрываются, крупные (как Kimyo, UTAS, ISFT) превращаются в сетевые гиганты.</li>
+               </ul>`,
+        link: "https://review.uz/post/infografika-2017-2024-yillarda-talim-sohasini-rivojlantirishning-asosiy-korsatkichlari"
+    },
+    {
+        title: "Региональная децентрализация",
+        stat: "7 Городков",
+        tag: "География",
+        desc: `<b>Суть тренда:</b> Ташкент перестает быть моно-центром. Создается инфраструктура для удержания талантов в областях.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>В 2026 году акцент смещен на регионы: в 7 областях запущены <b>«Городки профессий»</b>.</li>
+                <li><b>Узкая специализация:</b> Навои превращается в хаб искусственного интеллекта, Ферганская долина — в текстильно-образовательный кластер.</li>
+                <li>Цель — снизить миграционную нагрузку на столицу и обеспечить кадрами региональные промышленные узлы.</li>
+               </ul>`,
+        link: "https://www.gazeta.uz/ru/2026/02/11/principle/"
+    },
+    {
+        title: "Диктатура качества (Регуляции)",
+        stat: "Запрет Sirtqi",
+        tag: "Контроль",
+        desc: `<b>Суть тренда:</b> Самый жесткий регуляторный сезон за 10 лет. Качество образования теперь измеряется цифрами, а не обещаниями.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li><b>Полный запрет заочки:</b> С 2025/26 года форма «sirtqi» ликвидирована.</li>
+                <li><b>Нацрейтинг (Март 2026):</b> Внедрена система 25 индикаторов. Вузы, занимающие последние места 3 года подряд, автоматически теряют лицензию.</li>
+                <li><b>Face ID:</b> Дистанционное обучение теперь контролируется биометрией для исключения подделки результатов тестов.</li>
+               </ul>`,
+        link: "https://www.gazeta.uz/ru/2025/06/26/students/"
+    },
+    {
+        title: "AI-Трансформация",
+        stat: "5 млн Лидеров",
+        tag: "Технологии",
+        desc: `<b>Суть тренда:</b> Масштабное внедрение ИИ не как отдельного предмета, а как сквозной компетенции.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>Программа <b>«5 миллионов лидеров ИИ»</b>: к маю 2026 курсы Coursera/edX по ИИ полностью переведены на узбекский.</li>
+                <li>Обязательные модули по Генеративному ИИ внедрены во все программы (от медиков до юристов).</li>
+                <li>Вузы-лидеры получают гранты в виде электромобилей и вычислительных мощностей за успехи в ИИ-исследованиях.</li>
+               </ul>`,
+        link: "https://fergana.agency/news/144419/"
+    },
+    {
+        title: "Смена лидеров спроса",
+        stat: "IT +22%",
+        tag: "Специализации",
+        desc: `<b>Суть тренда:</b> Абитуриенты стали прагматичнее. Спрос смещается от «престижных» корочек к навыкам будущего.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li><b>Растут:</b> Кибербезопасность, Инженерия ИИ, Зеленая энергетика, Специализированная медицина.</li>
+                <li><b>Стагнируют:</b> Традиционная юриспруденция и филология без IT-компонента (наблюдается перенасыщение рынка специалистами общего профиля).</li>
+                <li>Прогноз: К 2028 году 60% вакансий в РУз будут требовать навыки работы с ИИ.</li>
+               </ul>`,
+        link: "https://www.digital.gov.uz/ru/edu/news/view/138354"
+    },
+    {
+        title: "Экономика и Стоимость",
+        stat: "7.4 млн Мин.",
+        tag: "Финансы",
+        desc: `<b>Суть тренда:</b> Стабилизация цен в госвузах и борьба за лояльность в частных.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>Минимальный контракт в госвузах зафиксирован на уровне <b>7.4 млн сумов</b>.</li>
+                <li><b>Финансовая гибкость:</b> Частные вузы массово переходят на модель 12-месячной рассрочки без участия банков.</li>
+                <li>Появились «пакетные» предложения для иностранцев: учеба + проживание за $1000–1600 в год.</li>
+               </ul>`,
+        link: "https://advice.uz/ru/news/2364"
+    },
+    {
+        title: "Международная интеграция",
+        stat: "7 в Top-1000",
+        tag: "Глобализация",
+        desc: `<b>Суть тренда:</b> Узбекистан выходит из изоляции и интегрируется в мировое академическое пространство.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>В рейтинге <b>QS 2026</b> сразу 7 вузов Узбекистана вошли в ТОП-1000.</li>
+                <li><b>Центр ЮНЕСКО (Март 2026):</b> В Ташкенте создается хаб для глобального мониторинга образования и взаимного признания дипломов.</li>
+                <li>Активный рост программ «двойных дипломов» с вузами Германии, Кореи и Турции.</li>
+               </ul>`,
+        link: "https://nuu.uz/ru/qs-sustainability-rankings-2026-ozmu-top-1000-talikda/"
+    },
+    {
+        title: "Дуальное обучение",
+        stat: "5x Охват",
+        tag: "Практика",
+        desc: `<b>Суть тренда:</b> Обучение молодежи современным профессиям через практику на реальных объектах.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>Модель <b>«2 дня теории + 4 дня на производстве»</b> показала 5-кратный рост охвата в 2026 году.</li>
+                <li>Вузы подписывают прямые контракты с индустриальными кластерами, где студенты получают зарплату уже со 2 курса.</li>
+                <li>Техникумы стали основными площадками для этого эксперимента.</li>
+               </ul>`,
+        link: "https://www.uzdaily.uz/ru/2026-i-god-obucheniia-molodezhi-sovremennym-professiiam/"
+    },
+    {
+        title: "Зеленые инициативы (ESG)",
+        stat: "Sustainability",
+        tag: "Эко-тренд",
+        desc: `<b>Суть тренда:</b> Вузы начали использовать «зеленую повестку» для привлечения международных инвестиций и грантов.<br><br>
+               <b>Ключевые факты:</b>
+               <ul>
+                <li>Лидер тренда — <b>НУУ</b>, показавший резкий рост в рейтинге QS Sustainability.</li>
+                <li>Внедрение ESG-стандартов (устойчивое развитие) стало обязательным пунктом стратегии развития ТОП-вузов.</li>
+                <li>Гранты на исследования в области климата и зеленой энергии выросли на 30% за последние полгода.</li>
+               </ul>`,
+        link: "https://nuu.uz/ru/qs-sustainability-rankings-2026-ozmu-top-1000-talikda/"
     }
+];
 
-    function closeModal() {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('modal').style.display = 'none';
-    }
+const grid = document.getElementById('trendGrid');
+trends.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openModal(t);
+    card.innerHTML = `
+        <span class="tag">${t.tag}</span>
+        <h3>${t.title}</h3>
+        <div class="stat">${t.stat}</div>
+        <p style="color:#64748b; font-size:0.9em;">Нажми для подробного анализа и фактов →</p>
+    `;
+    grid.appendChild(card);
+});
+
+function openModal(t) {
+    document.getElementById('mTitle').innerText = t.title;
+    document.getElementById('mContent').innerHTML = t.desc;
+    document.getElementById('mLink').innerHTML = `<a href="${t.link}" target="_blank" class="source-link">Открыть первоисточник ↗</a>`;
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('modal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('modal').style.display = 'none';
+}
 </script>
-
 </body>
 </html>
