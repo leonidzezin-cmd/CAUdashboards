@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAU: Global Education Report 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .competitor-faculty { font-weight: 700; color: #1e40af; }
+        .logo-slot { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 12px; background: #fff; border: 1px solid #e2e8f0; padding: 4px; font-size: 9px; font-weight: bold; text-align: center; color: #94a3b8; flex-shrink: 0; }
+        .logo-slot img { width: 100%; height: 100%; object-fit: contain; }
+        th.sortable { cursor: pointer; transition: background 0.2s; white-space: nowrap; border-bottom: 2px solid #cbd5e1; }
+        th.sortable:hover { background-color: #334155; }
+        .price-cell { font-weight: 700; color: #1e293b; background-color: rgba(239, 246, 255, 0.4); }
+        .flag-icon { font-size: 16px; margin-right: 4px; }
+        .acc-column { font-size: 11px; leading-snug; color: #334155;}
+    </style>
+</head>
+<body class="p-6 md:p-10">
+
+    <div class="max-w-[1900px] mx-auto">
+        <header class="mb-8 flex flex-col md:flex-row justify-between items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight">CAU: Анализ конкурентов и Глобальное признание диплома (2026)</h1>
+                <p class="text-slate-500 text-sm mt-1">Цены для граждан Узбекистана (1 USD = 12 200 UZS). Флажки показывают регионы признания.</p>
+            </div>
+            <input type="text" id="searchInput" placeholder="Поиск вуза, факультета или страны признания..." 
+                   class="px-5 py-3 border border-slate-200 rounded-2xl shadow-sm focus:border-blue-500 outline-none w-full md:w-[450px] bg-white text-sm">
+        </header>
+
+        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-100">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-[12px] border-collapse" id="uniTable">
+                    <thead class="bg-slate-800 text-white uppercase text-[9px] tracking-widest sticky top-0 z-10">
+                        <tr>
+                            <th class="p-5">Вуз</th>
+                            <th class="p-5 w-[220px]">Позиционирование</th>
+                            <th class="p-5 text-center">Услуги</th>
+                            <th class="p-4 w-[250px]">Факультеты (CAU Mix)</th>
+                            <th class="p-4 text-center sortable" onclick="sortBy('med')">Мед ⇅</th>
+                            <th class="p-4 text-center sortable" onclick="sortBy('dent')">Стом ⇅</th>
+                            <th class="p-4 text-center sortable" onclick="sortBy('biz')">Бизнес ⇅</th>
+                            <th class="p-4 text-center sortable" onclick="sortBy('eng')">Инж ⇅</th>
+                            <th class="p-4 text-center sortable" onclick="sortBy('tur')">Тур ⇅</th>
+                            <th class="p-4 text-center sortable" onclick="sortBy('arch')">Арх ⇅</th>
+                            <th class="p-5 text-center">Глобальный охват</th>
+                            <th class="p-5 w-[250px]">Международное признание</th>
+                            <th class="p-5 text-green-600">Преимущества</th>
+                            <th class="p-5 text-red-600">Недостатки</th>
+                            <th class="p-5">Локация</th>
+                            <th class="p-5 text-center">Инфо</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const universities = [
+        { name: "CAU", logo: "https://centralasian.uz/wp-content/themes/cau/assets/img/logo.svg", posTitle: "Premium Global.", posDesc: "Элитная экосистема для лидеров.", services: "P, B, M", faculties: "<span class='competitor-faculty'>Мед, Стом, Бизнес, Инж, Тур</span>", prices: {med: 135.0, dent: 135.0, biz: 81.0, eng: 85.4, tur: 81.0, arch: null}, flags: "🌐🇺🇸🇩🇪🇪🇺", acc: "WDOMS (ID: F0006802), ECFMG Eligible (США). ACBSP / BoI (CBS dual degree).", pro: "Топ инфраструктура, клиника", con: "Самая высокая цена", loc: "М-Улугбек", map: "https://maps.app.goo.gl/CAULocation", web: "https://centralasian.uz", ig: "https://instagram.com/centralasianuniversity", tg: "https://t.me/centralasianuniversity" },
+        { name: "AUT", logo: "https://aut-edu.uz/img/logo.png", posTitle: "American Technology.", posDesc: "Стандарты США в IT и инженерии.", services: "B", faculties: "<span class='competitor-faculty'>Инженерия, Архитектура, Бизнес</span>", prices: {med: null, dent: null, biz: 49.2, eng: 49.2, tur: null, arch: 49.2}, flags: "🇺🇸", acc: "Dual Degree с Arizona State University (Топ вуз США).", pro: "Диплом США, инновации", con: "Новый бренд", loc: "Яшнабад", map: "https://maps.app.goo.gl/AUTLocation", web: "https://aut-edu.uz", ig: "https://instagram.com/aut_edu", tg: "https://t.me/aut_edu_uz" },
+        { name: "Kimyo", logo: "https://kiut.uz/img/logo.png", posTitle: "Mass Career.", posDesc: "Доступный частный гигант.", services: "P, B, M", faculties: "<span class='competitor-faculty'>Мед, Стом, Бизнес, Арх, Инж, Тур</span>", prices: {med: 29.9, dent: 29.9, biz: 27.8, eng: 27.8, tur: 27.8, arch: 27.8}, flags: "🌐🇮🇳🇪🇺", acc: "WDOMS (ID: F0008853). NMC (Индия). EQAR (ЕС), IQAA, KAZSEE.", pro: "Самая низкая цена на мед", con: "Переполненность", loc: "Яккасарай", map: "https://maps.app.goo.gl/KIUTLocation", web: "https://kiut.uz", ig: "https://instagram.com/kiut_official", tg: "https://t.me/kiut_official" },
+        { name: "WIUT", logo: "https://www.wiut.uz/images/Logo/wiut-logo-blue.png", posTitle: "British Tradition.", posDesc: "Старейший западный вуз.", services: "P, B, M", faculties: "<span class='competitor-faculty'>Бизнес, IT</span>", prices: {med: null, dent: null, biz: 54.6, eng: null, tur: null, arch: null}, flags: "🇬🇧🌐", acc: "QAA (UK) / Univ of Westminster (Лондон). WES Eligible.", pro: "Бренд №1, нетворкинг", con: "Нет медицины", loc: "Ц-1", map: "https://maps.app.goo.gl/WIUTLocation", web: "https://wiut.uz", ig: "https://instagram.com/wiutofficial", tg: "https://t.me/wiut_official" },
+        { name: "Webster", logo: "https://webster.uz/images/logo.png", posTitle: "American Way.", posDesc: "Образование США.", services: "B, M", faculties: "<span class='competitor-faculty'>Бизнес, IT, Биология</span>", prices: {med: null, dent: null, biz: 50.3, eng: 50.3, tur: null, arch: null}, flags: "🇺🇸", acc: "HLC (USA) / Webster University St. Louis (США). Диплом США.", pro: "Диплом США, центр города", con: "Скромный кампус", loc: "Навои", map: "https://maps.app.goo.gl/WebsterLocation", web: "https://webster.uz", ig: "https://instagram.com/websteruzbekistan", tg: "https://t.me/webstertashkent" },
+        { name: "NewUU", logo: "https://newuu.uz/images/logo.svg", posTitle: "Future Tech.", posDesc: "Научная элита страны.", services: "B, M", faculties: "<span class='competitor-faculty'>Инженерия, Бизнес</span>", prices: {med: null, dent: null, biz: 71.4, eng: 63.4, tur: null, arch: null}, flags: "🇺🇸🇩🇪", acc: "Работает над QAA (UK). Партнеры: MIT (США), TUM (Германия). TUM Dual Degree.", pro: "Гранты 100%, лабы", con: "Нет медицинских наук", loc: "М-Улугбек", map: "https://maps.app.goo.gl/NewUULocation", web: "https://newuu.uz", ig: "https://instagram.com/newuzbekistanuniversity", tg: "https://t.me/newuzbekistanuniversity" },
+        { name: "EMU", logo: "https://www.emuni.uz/assets/images/logo.png", posTitle: "True Med.", posDesc: "Спец. на качественной медицине.", services: "B", faculties: "<span class='competitor-faculty'>Медицина, Стоматология, Бизнес</span>", prices: {med: 54.9, dent: 54.9, biz: 15.0, eng: null, tur: null, arch: null}, flags: "🌐🇺🇸🇪🇺", acc: "WDOMS (ID: F0007940). NMC (Индия). Стандарты WFME.", pro: "Своя клиника, практика", con: "Узкий профиль", loc: "Чиланзар", map: "https://maps.app.goo.gl/EMULocation", web: "https://emuni.uz", ig: "https://instagram.com/emuni_uz", tg: "https://t.me/emuni_uz" },
+        { name: "Inha", logo: "https://inha.uz/wp-content/uploads/2021/06/iut-logo.jpg", posTitle: "Logic & Code.", posDesc: "IT-лидер по корейской модели.", services: "B, M", faculties: "<span class='competitor-faculty'>Инженерия, Бизнес</span>", prices: {med: null, dent: null, biz: 42.3, eng: 40.4, tur: null, arch: null}, flags: "🇰🇷🇬🇧🌐", acc: "IQAC (UK standard) / Inha University (Корея).", pro: "Бренд в IT-сфере", con: "Сложная математика", loc: "М-Улугбек", map: "https://maps.app.goo.gl/InhaLocation", web: "https://inha.uz", ig: "https://instagram.com/inhautashkent", tg: "https://t.me/inha_uz" },
+        { name: "Amity", logo: "https://amity.uz/images/logo.png", posTitle: "Indian Tech.", posDesc: "Глобальный IT-бренд.", services: "P, B, M", faculties: "<span class='competitor-faculty'>Инж, Бизнес, Тур</span>", prices: {med: null, dent: null, biz: 35.0, eng: 39.0, tur: 35.0, arch: null}, acc: "Amity Univ (Индия). WASC (США), QAA (UK) eligible.", flags: "🇮🇳🇺🇸🇬🇧", pro: "Современный кампус", con: "Средний престиж", loc: "Шайхантахур", map: "https://maps.app.goo.gl/AmityLocation", web: "https://amity.uz", ig: "https://instagram.com/amityuniversitytashkent", tg: "https://t.me/AmityUniversityTashkent" },
+        { name: "TEAM", logo: "https://teamuni.uz/wp-content/uploads/2020/06/team-logo.png", posTitle: "Startup School.", posDesc: "Вуз от бизнес-практиков.", services: "P, B", faculties: "<span class='competitor-faculty'>Бизнес</span>", prices: {med: null, dent: null, biz: 40.0, eng: null, tur: null, arch: null}, flags: "🌐", acc: "IAAR (Международная аккредитация агентства из Германии).", pro: "Связи с топ-бизнесом", con: "Малый выбор", loc: "Яшнабад", map: "https://maps.app.goo.gl/TEAMLocation", web: "https://teamuni.uz", ig: "https://instagram.com/teamuniversity_uz", tg: "https://t.me/teamuniversity_uz" },
+        { name: "Turin", logo: "https://turin.uz/wp-content/uploads/2024/03/Logo-Eng-vertical-blue.png", posTitle: "Industrial.", posDesc: "Инженерные стандарты Италии.", services: "P, B, M", faculties: "<span class='competitor-faculty'>Инж, Арх, Бизнес</span>", prices: {med: null, dent: null, biz: 28.5, eng: 28.5, tur: null, arch: 28.5}, flags: "🇮🇹🇪🇺", acc: "Диплом Politecnico di Torino (Италия).", pro: "База UzAuto", con: "Бюрократия", loc: "Алмазар", map: "https://maps.app.goo.gl/TurinLocation", web: "https://turin.uz", ig: "https://instagram.com/polito_tashkent", tg: "https://t.me/polito_tashkent" },
+        { name: "MDIST", logo: "https://mdis.uz/assets/images/logo.png", posTitle: "Service Expert.", posDesc: "Сингапурская школа.", services: "P, B, M", faculties: "<span class='competitor-faculty'>Тур, Бизнес</span>", prices: {med: null, dent: null, biz: 38.0, eng: null, tur: 32.0, arch: null}, flags: "🇬🇧🌐", acc: "MDIS Singapore / Дипломы Univ of Sunderland/Teesside (UK).", pro: "Опыт в туризме", con: "У устаревающая база", loc: "Чиланзар", map: "https://maps.app.goo.gl/MDISTLocation", web: "https://mdis.uz", ig: "https://instagram.com/mdistashkent", tg: "https://t.me/mdistashkent" },
+        { name: "BMU", logo: "https://bmu-edu.uz/wp-content/uploads/2020/09/bmu-logo-1.png", posTitle: "Management Elite.", posDesc: "Британское качество обучения.", services: "P, B, M", faculties: "<span class='competitor-faculty'>Бизнес</span>", prices: {med: null, dent: null, biz: 40.0, eng: null, tur: null, arch: null}, flags: "🇬🇧🌐", acc: "Queen Margaret Univ & University of Reading (UK).", pro: "Экспат-преподаватели", con: "Малый кампус", loc: "М-Улугбек", map: "https://maps.app.goo.gl/nX3S9N3Z", web: "https://bmu-edu.uz", ig: "https://instagram.com/bmu_edu", tg: "https://t.me/bmu_edu" },
+        { name: "Stars", logo: "https://stars.university/assets/img/logo.png", posTitle: "Pathway Pro.", posDesc: "Трансфер в мир.", services: "P, B", faculties: "<span class='competitor-faculty'>Бизнес</span>", prices: {med: null, dent: null, biz: 25.0, eng: null, tur: null, arch: null}, flags: "🌐🇬🇧🇺🇸", acc: "Double Degree с Топ-200 вузами. BSI (UK), ANAB (USA).", pro: "Модель трансфера", con: "Слабая инфраструктура", loc: "Мирабад", map: "https://maps.app.goo.gl/StarsLocation", web: "https://stars.university", ig: "https://instagram.com/starsuniversity", tg: "https://t.me/starsuniversity" },
+        { name: "Nordic", logo: "https://old.nordicuniversity.org/img/logo.png", posTitle: "Scandic Model.", posDesc: "Финская модель обучения.", services: "B, M", faculties: "<span class='competitor-faculty'>Бизнес</span>", prices: {med: null, dent: null, biz: 23.4, eng: null, tur: null, arch: null}, flags: "🇱🇻🇪🇺🇫🇮", acc: "Диплом ISMA (Латвия/ЕС). Методика Финляндии.", pro: "Акцент на soft skills", con: "Малый чек бренда", loc: "Чиланзар", map: "https://maps.app.goo.gl/NordicLocation", web: "https://nordicuniversity.org", ig: "https://instagram.com/nordic_university", tg: "https://t.me/nordic_university" },
+        { name: "Diplomat", logo: "https://diplomat.university/_next/static/media/logo.f11d6e8a.svg", posTitle: "Global Relations.", posDesc: "Вуз для дипломатов и юристов.", services: "B", faculties: "<span class='competitor-faculty'>Бизнес</span>, Право", prices: {med: null, dent: null, biz: 24.0, eng: null, tur: null, arch: null}, flags: "🌐", acc: "Нишевой фокус. Международные стандарты подготовки.", pro: "Спец. на дипломатии", con: "Новый бренд", loc: "М-Улугбек", map: "https://maps.app.goo.gl/DiplomatLocation", web: "https://diplomat.university", ig: "https://instagram.com/diplomat_university", tg: "https://t.me/diplomat_university" },
+        { name: "TIUE", logo: "https://tiue.uz/images/logo.png", posTitle: "Digital Pedagogy.", posDesc: "Бюджетный цифровой университет.", services: "B, M", faculties: "<span class='competitor-faculty'>Бизнес, IT</span>", prices: {med: null, dent: null, biz: 14.5, eng: 25.0, tur: null, arch: null}, flags: "🇬🇧🌐", acc: "OTHM (UK) Level 3 foundation.", pro: "Самый дешевый контракт", con: "Слабая мат. база", loc: "Юнусабад", map: "https://maps.app.goo.gl/TIUELocation", web: "https://tiue.uz", ig: "https://instagram.com/tiue_uz", tg: "https://t.me/tiue_uz" },
+        { name: "Ajou", logo: "https://ajou.uz/uploads/global/logo.png", posTitle: "Korean Excellence.", posDesc: "Корейская инженерия.", services: "B", faculties: "<span class='competitor-faculty'>Инженерия, Арх</span>", prices: {med: null, dent: null, biz: null, eng: 28.5, tur: null, arch: 28.5}, flags: "🇰🇷🌐", acc: "Диплом Ajou University (Корея).", pro: "Качество Южной Кореи", con: "Узкий фокус", loc: "Яшнабад", map: "https://maps.app.goo.gl/AjouLocation", web: "https://ajou.uz", ig: "https://instagram.com/ajou_university_in_tashkent", tg: "https://t.me/ajou_tashkent" }
+    ];
+
+    let currentData = [...universities];
+    let sortOrders = {};
+
+    function renderTable(data) {
+        const body = document.getElementById('tableBody');
+        body.innerHTML = data.map(u => `
+            <tr class="hover:bg-slate-50 transition-colors">
+                <td class="p-5">
+                    <div class="logo-slot" title="${u.name}">
+                        <img src="${u.logo}" alt="${u.name}" onerror="this.onerror=null; this.parentNode.innerHTML='${u.name}';">
+                    </div>
+                </td>
+                <td class="p-5 leading-tight">
+                    <b class="text-slate-900 block mb-1 text-[13px]">${u.posTitle}</b>
+                    <span class="text-slate-500 text-[10px] leading-tight uppercase font-medium block">${u.posDesc}</span>
+                </td>
+                <td class="p-5 text-center font-bold text-slate-700">${u.services}</td>
+                <td class="p-5 leading-snug text-[10px] text-slate-700">${u.faculties}</td>
+                <td class="p-3 text-center price-cell">${u.prices.med || '-'}</td>
+                <td class="p-3 text-center price-cell">${u.prices.dent || '-'}</td>
+                <td class="p-3 text-center price-cell">${u.prices.biz || '-'}</td>
+                <td class="p-3 text-center price-cell">${u.prices.eng || '-'}</td>
+                <td class="p-3 text-center price-cell">${u.prices.tur || '-'}</td>
+                <td class="p-3 text-center price-cell">${u.prices.arch || '-'}</td>
+                <td class="p-5 text-center text-xl text-slate-600 tracking-wider">${u.flags}</td>
+                <td class="p-5 acc-column text-slate-800">${u.acc}</td>
+                <td class="p-5 text-green-700 font-medium leading-tight">${u.pro}</td>
+                <td class="p-5 text-red-700 font-medium leading-tight">${u.con}</td>
+                <td class="p-5">
+                    <a href="${u.map}" target="_blank" class="text-blue-600 hover:text-blue-800 font-semibold block truncate w-24">${u.loc}</a>
+                </td>
+                <td class="p-5">
+                    <div class="flex space-x-3 justify-center text-[16px]">
+                        <a href="${u.web}" target="_blank" title="Сайт">🌐</a>
+                        <a href="${u.ig}" target="_blank" title="Instagram">📸</a>
+                        <a href="${u.tg}" target="_blank" title="Telegram">✈️</a>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function sortBy(key) {
+        sortOrders[key] = !sortOrders[key];
+        currentData.sort((a, b) => {
+            let valA = a.prices[key] || 0;
+            let valB = b.prices[key] || 0;
+            return sortOrders[key] ? valB - valA : valA - valB;
+        });
+        renderTable(currentData);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase();
+        currentData = universities.filter(u => 
+            u.name.toLowerCase().includes(val) || 
+            u.faculties.toLowerCase().includes(val) ||
+            u.posDesc.toLowerCase().includes(val) ||
+            u.acc.toLowerCase().includes(val)
+        );
+        renderTable(currentData);
+    });
+
+    renderTable(currentData);
+</script>
+</body>
+</html>

@@ -1,0 +1,732 @@
+
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Университетский Монитор 2026</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+        <style>
+            body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; padding: 40px; margin: 0; }
+            .container { max-width: 1300px; margin: 0 auto; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+            h1 { font-size: 2.5em; font-weight: 800; color: #0f172a; margin-bottom: 30px; }
+            
+            .controls { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+            .filter-btn { padding: 10px 20px; border: none; background: #f1f5f9; border-radius: 12px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+            .filter-btn:hover, .filter-btn.active { background: #2563eb; color: white; }
+
+            table { width: 100%; border-collapse: collapse; }
+            th { text-align: left; padding: 15px; border-bottom: 2px solid #f1f5f9; color: #64748b; font-size: 0.85em; text-transform: uppercase; }
+            td { padding: 20px 15px; border-bottom: 1px solid #f1f5f9; }
+            
+            .uni-badge { font-weight: 800; color: #0f172a; background: #f1f5f9; padding: 5px 10px; border-radius: 6px; }
+            .title-link { text-decoration: none; color: #1e293b; font-weight: 600; font-size: 1.05em; line-height: 1.4; transition: 0.2s; }
+            .title-link:hover { color: #2563eb; }
+            
+            .tag-pill { padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 700; text-transform: uppercase; }
+            .tag-Гранты { background: #dcfce7; color: #15803d; }
+            .tag-Прием { background: #fef9c3; color: #a16207; }
+            .tag-IT\/AI { background: #dbeafe; color: #1e40af; }
+            .tag-Карьера { background: #f3e8ff; color: #7e22ce; }
+            .tag-Общее { background: #f1f5f9; color: #475569; }
+            
+            .date-col { font-size: 0.9em; color: #94a3b8; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🎓 Новости университетов Узбекистана 2026</h1>
+            
+            <div class="controls">
+                <button class="filter-btn active" onclick="filterBy('all')">Все темы</button>
+                <button class="filter-btn" onclick="filterBy('Гранты')">Гранты</button>
+                <button class="filter-btn" onclick="filterBy('Прием')">Прием</button>
+                <button class="filter-btn" onclick="filterBy('IT/AI')">IT / AI</button>
+                <button class="filter-btn" onclick="filterBy('Карьера')">Карьера</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)" style="cursor:pointer">ВУЗ ⇅</th>
+                        <th>Заголовок новости (RU)</th>
+                        <th onclick="sortTable(2)" style="cursor:pointer">Дата ⇅</th>
+                        <th>Категория</th>
+                    </tr>
+                </thead>
+                <tbody id="news-body">
+                    
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/rector-message" target="_blank" class="title-link">Послание президента Нового Узбекского университета</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/staff/international-industry-advisory-council" target="_blank" class="title-link">Международный отраслевой консультативный совет</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="Прием">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/staff/admissions-committee-for-coordinating-the-admission-process-of-applicants-to-doctoral-phd-and-independent-researcher-programs" target="_blank" class="title-link">Приемная комиссия по программам PhD</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Прием">Прием</span></td>
+        </tr>
+        
+        <tr data-tag="Прием">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/staff/admissions-committee-for-coordinating-the-student-admission-process" target="_blank" class="title-link">Приемная комиссия по программам бакалавриата и магистратуры</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Прием">Прием</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/school-of-humanities-social-and-natural-sciences" target="_blank" class="title-link">Школа гуманитарных, социальных и естественных наук</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/an-acceleration-program-to-support-startups-has-been-launched-at-new-uzbekistan-university" target="_blank" class="title-link">26 March, 2026                                        
+
+
+                                            22                                        
+
+
+                                        An acceleration program to support startups has been launched at New Uzbekistan University                                    
+
+                                        On March 26, a “Leadership and Youth Dialogue” dedicated to the development of the startup ecosystem…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/delegation-of-new-uzbekistan-university-to-expand-collaboration-with-the-technical-university-of-munich" target="_blank" class="title-link">16 March, 2026                                        
+
+
+                                            256                                        
+
+
+                                        Delegation of New Uzbekistan University to Expand Collaboration with the Technical University of Munich                                    
+
+                                        A delegation from New Uzbekistan University visited Germany to hold a series of meetings aimed at ex…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/open-dialogue-with-students-held-at-new-uzbekistan-university-on-youth-day" target="_blank" class="title-link">12 March, 2026                                        
+
+
+                                            127                                        
+
+
+                                        Open Dialogue with Students Held at New Uzbekistan University on Youth Day                                    
+
+                                        At New Uzbekistan University, an open dialogue with students was held on the occasion of Youth Day a…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/research-camp-2026-for-the-next-generation-of-researchers" target="_blank" class="title-link">12 March, 2026                                        
+
+
+                                            298                                        
+
+
+                                        Research Camp 2026 for the Next Generation of Researchers                                    
+
+                                        Research Camp 2026 will be organized at New Uzbekistan University, offering a summer research progra…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/a-student-of-new-uzbekistan-university-receives-the-yulduz-tech-awards" target="_blank" class="title-link">11 March, 2026                                        
+
+
+                                            176                                        
+
+
+                                        A Student of New Uzbekistan University Receives the “Yulduz Tech Awards”                                    
+
+                                        The Ministry of Digital Technologies organized the “Yulduz Tech Awards” ceremony for the second time…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/newuu-graduate-robiyakhon-nabijonova-is-pursuing-her-msc-at-cranfield-university-one-of-the-worlds-leading-engineering-universities" target="_blank" class="title-link">10 March, 2026                                        
+
+
+                                            248                                        
+
+
+                                        NewUU graduate Robiyakhon Nabijonova is pursuing her MSc at Cranfield University, one of the world’s leading engineering universities                                    
+
+                                        Robiyakhon Nabijonova, a graduate of the Mechanical Engineering program at New Uzbekistan University…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/student-festival-held-at-new-uzbekistan-university-as-part-of-youth-day" target="_blank" class="title-link">9 March, 2026                                        
+
+
+                                            161                                        
+
+
+                                        Student Festival Held at New Uzbekistan University as Part of Youth Day                                    
+
+                                        Today, New Uzbekistan University hosted the Navruz XP Fest in collaboration with Coca-Cola, along wi…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/spring-concert-held-at-new-uzbekistan-university-to-celebrate-international-womens-day" target="_blank" class="title-link">6 March, 2026                                        
+
+
+                                            226                                        
+
+
+                                        Spring Concert Held at New Uzbekistan University to Celebrate International Women’s Day                                    
+
+                                        Today, New Uzbekistan University hosted a festive Spring Concert dedicated to March 8 — Internationa…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/new-uzbekistan-university-and-aloqabank-to-establish-an-artificial-intelligence-laboratory" target="_blank" class="title-link">5 March, 2026                                        
+
+
+                                            234                                        
+
+
+                                        New Uzbekistan University and Aloqabank to Establish an Artificial Intelligence Laboratory                                    
+
+                                        New Uzbekistan University and Aloqabank have signed a cooperation agreement aimed at advancing scien…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">New Uzbekistan</span></td>
+            <td><a href="https://newuu.uz/en/news/a-graduate-of-new-uzbekistan-university-continues-her-studies-at-a-globally-ranked-leading-university" target="_blank" class="title-link">5 March, 2026                                        
+
+
+                                            260                                        
+
+
+                                        A Graduate of New Uzbekistan University Continues Her Studies at a Globally Ranked Leading University                                    
+
+                                        Zulfiya Usmonova, a graduate of New Uzbekistan University, is continuing her academic journey at the…</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/page/excel-expert-and-power-bi-data-analyst-exam-preparation" target="_blank" class="title-link">Подготовка к экзамену Excel Expert и Power BI Data Analyst</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="Прием">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/page/instructions-and-criteria-for-participation-in-the-competition" target="_blank" class="title-link">Как подать заявку и принять участие в конкурсе</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Прием">Прием</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/news-detail/38" target="_blank" class="title-link">16.03.2026БМУ получил от «Узбекинвеста» специализированные страховые книжки</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="Гранты">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/news-detail/37" target="_blank" class="title-link">11.03.2026Нишанова Дильноза удостоена Государственной стипендии Ислама Каримова</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Гранты">Гранты</span></td>
+        </tr>
+        
+        <tr data-tag="Карьера">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/news-detail/36" target="_blank" class="title-link">04.03.2026Отчет о стажировке на факультете: Семинар «Исследования в действии»</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Карьера">Карьера</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/news-detail/35" target="_blank" class="title-link">04.03.2026BMU на Глобальном форуме искусственного интеллекта и цифрового образования в Китае</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/news-detail/34" target="_blank" class="title-link">03.03.2026Др. Тимур Умаров присоединился к аккредитационному визиту ABET в Саудовскую Аравию</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">BMU</span></td>
+            <td><a href="https://bmu-edu.uz/news-detail/32" target="_blank" class="title-link">17.01.2026Модель ООН на BMU 2026</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/rector-meets-the-course-representatives" target="_blank" class="title-link">Ректор встречается с представителями курса</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/wiut-welcomed-otkir-yusupov-for-a-special-guest-lecture" target="_blank" class="title-link">WIUT Welcomed O‘tkir Yusupov for a Special Guest Lecture</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/wiut-and-the-university-of-westminster-visited-tobb-etu-tashkent-university" target="_blank" class="title-link">МВУТ и Вестминстерский университет посетили TOBB ETU Ташкентский университет</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Прием">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/the-project-management-and-hr-management-courses-by-cple" target="_blank" class="title-link">Открыта регистрация на курсы управления проектами и управления персоналом от CPLE</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Прием">Прием</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/wiut-introduces-the-new-mba-with-pathways" target="_blank" class="title-link">WIUT представляет новую программу MBA с Pathways</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/wiut-student-begins-exchange-at-the-university-of-ljubljana" target="_blank" class="title-link">Студент МВУТ начинает обмен в Университете Любляны</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/international" target="_blank" class="title-link">Департамент международного сотрудничества и стратегического развития</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/wiut-computing-students-take-1st-and-2nd-place-at-the-problem-solving-international-hackathon-2026" target="_blank" class="title-link">Студенты-компьютерщики МВУТ заняли 1 и 2 места на Международном хакатоне по решению проблем 2026</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/westminster-international-university-in-tashkent-has-been-officially-nominated-for-the-award-of-excellence-for-digital-transformation-at-the-5th-zairi-international-awards-for-excellence-in-higher-education-2025-2026" target="_blank" class="title-link">Westminster International University in Tashkent has been officially nominated for the Award of Excellence for Digital Transformation at the 5th Zairi International Awards for Excellence in Higher Education (2025–2026)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Карьера">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/wiuts-february-career-development-digest" target="_blank" class="title-link">Февральский дайджест развития карьеры WIUT</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Карьера">Карьера</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/wiut-hosts-the-uzbekistan-regional-symposium-on-transnational-education" target="_blank" class="title-link">МВУТ проводит Региональный симпозиум Узбекистана по транснациональному образованию</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">WIUT</span></td>
+            <td><a href="https://www.wiut.uz/news/cple-cerge-ei-launch-distance-learning-courses" target="_blank" class="title-link">CPLE и CERGE-EI запускают курсы дистанционного обучения</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/from-the-bottom-of-our-hearts-we-congratulate-you-on-the-holiday-of-navruz/" target="_blank" class="title-link">From the bottom of our hearts, we congratulate You on the holiday of Navruz!
+
+May this beautiful and bright holiday bring you much warmth, sunny days, and pleasant moments.  ...					
+
+
+
+
+21
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/happy-eid-al-fitr/" target="_blank" class="title-link">Happy Eid al-Fitr!
+
+May this special day bring you immense joy, peace, and prosperity, filling your home with  ...					
+
+
+
+
+20
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/navruz-celebration/" target="_blank" class="title-link">NAVRUZ CELEBRATION
+
+On March 26th, 2026, Inha University in Tashkent invites you to celebrate the Navruz holiday.  ...					
+
+
+
+
+19
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Гранты">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/students-of-inha-university-in-tashkent-have-become-recipients-of-prestigious-scholarships/" target="_blank" class="title-link">Students of Inha University in Tashkent have become recipients of prestigious scholarships
+
+The award ceremony for the recipients of prestigious state scholarships for the 2025/2026 academic year  ...					
+
+
+
+
+16
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Гранты">Гранты</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/on-march-14-a-nationwide-hashar-was-held-on-the-territory-of-inha-university-in-tashkent-on-the-eve-of-navruz-holiday/" target="_blank" class="title-link">On March 14, a nationwide hashar was held on the territory of Inha University in Tashkent on the eve of Navruz holiday.
+
+  ...					
+
+
+
+
+14
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/first-year-student-of-the-uk-program-at-inha-university-in-tashkent-shahobiddin-bakhriddinov-participated-in-the-international-youth-forum-world-youth-forum-2026-which-took-place-in-the-city-of-por/" target="_blank" class="title-link">First-year student of the UK program at Inha University in Tashkent, Shahobiddin Bakhriddinov, participated in the international youth forum World Youth Forum 2026, which took place in the city of Porto, Portugal.
+
+Shahobiddin was the only representative from Uzbekistan among participants from more than 100 countries around  ...					
+
+
+
+
+13
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/yearly-spring-job-fair-2026-for-all-students/" target="_blank" class="title-link">YEARLY SPRING “Job Fair 2026” for ALL students!
+
+Come to the job fair from the best local and foreign companies! A wide range  ...					
+
+
+
+
+12
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/dear-ladies-we-sincerely-congratulate-you-on-the-international-womens-day-march-8/" target="_blank" class="title-link">Dear ladies! We sincerely congratulate you on the International Women’s Day – March 8.
+
+This wonderful holiday embodies great love and respect for the beautiful half of humanity, so  ...					
+
+
+
+
+08
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/happy-womens-day-celebration-at-inha-university-in-tashkent/" target="_blank" class="title-link">Happy Women’s Day celebration at Inha University in Tashkent!
+
+On March 6th, Inha University Tashkent was filled with a unique atmosphere as our esteemed  ...					
+
+
+
+
+06
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/a-short-term-professional-development-course-titled-using-ai-technologies-in-public-administration-was-held-at-inha-university-in-tashkent/" target="_blank" class="title-link">A short-term professional development course titled “Using AI Technologies in Public Administration” was held at Inha University in Tashkent
+
+Over several days at Inha University in Tashkent, khokim advisors on digitalization and AI studied  ...					
+
+
+
+
+04
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/students-and-graduates-of-inha-university-in-tashkent-have-won-130000-at-the-president-tech-award/" target="_blank" class="title-link">Students and graduates of Inha University in Tashkent have won $130,000 at the President Tech Award
+
+The Karmon AI startup team — university graduates Khabibulloh Khallokov, Jonibek Yarashov, Murodjon Mirfayzullaev and  ...					
+
+
+
+
+03
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Прием">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/admissions-2026-is-open-now/" target="_blank" class="title-link">ADMISSIONS 2026 IS OPEN NOW
+
+Dream of building a career at Google, Microsoft, Amazon, or launching your own startup? At  ...					
+
+
+
+
+02
+Mar</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Прием">Прием</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/inha-university-in-tashkent-opens-mock-ielts-center/" target="_blank" class="title-link">Inha University in Tashkent opens MOCK IELTS Center!
+
+Inha University in Tashkent opens MOCK IELTS Center! Would you like to test your skills  ...					
+
+
+
+
+27
+Feb</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/27-february-2026-the-second-day-of-the-regional-symposium-for-central-asia-2026-was-held-at-inha-university-in-tashkent-concluding-with-the-final-conference/" target="_blank" class="title-link">27 February 2026, the second day of the Regional Symposium for Central Asia – 2026 was held at Inha University in Tashkent, concluding with the final conference.
+
+Within the program, welcoming remarks were delivered by FIRST (Forum of Incident Response and Security  ...					
+
+
+
+
+27
+Feb</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">INHA</span></td>
+            <td><a href="https://inha.uz//inha.uz/general/on-february-26-2026-the-first-regional-symposium-for-central-asia-2026-officially-commenced-at-inha-university-in-tashkent/" target="_blank" class="title-link">On February 26, 2026, the First Regional Symposium for Central Asia – 2026 officially commenced at Inha University in Tashkent.
+
+On the first day, practical training sessions were held for representatives of government agencies and  ...					
+
+
+
+
+26
+Feb</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/mission" target="_blank" class="title-link">Цель, миссия и основные ценности</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/91" target="_blank" class="title-link">Бакалавр наук в области информационных технологий - B.Sc. (ЭТО)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/673" target="_blank" class="title-link">Бакалавр наук в области кибербезопасности и блокчейна – B.Sc. (КС и БК)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/677" target="_blank" class="title-link">Sun’iy intellekt va ma’lumotlar ilmi fanlari bakalavri - B.Sc. (AI & DS)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/93" target="_blank" class="title-link">Бакалавр технологий (компьютерные науки и инженерия) - B.Tech (CSE)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/102" target="_blank" class="title-link">Бакалавр управления туризмом - BA (TA)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/719" target="_blank" class="title-link">Бакалавр наук в области информационных технологий - B.Sc. (ЭТО)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="Общее">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/664" target="_blank" class="title-link">Бакалавр наук в области кибербезопасности и блокчейна – B.Sc. (КС и БК)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-Общее">Общее</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/716" target="_blank" class="title-link">Sun’iy intellekt va ma’lumotlar ilmi fanlari bakalavri - B.Sc. (AI & DS)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/696" target="_blank" class="title-link">Бакалавр технологий (компьютерные науки и инженерия) - B.Tech (CSE)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/pages/programme/112" target="_blank" class="title-link">Магистр наук в области информационных технологий - M.Sc. (ЭТО)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="IT/AI">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/lists/events/conferences/intech_2024" target="_blank" class="title-link">Международная конференция «Технологические изменения в экономике» (ИнТех-2025)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-IT/AI">IT/AI</span></td>
+        </tr>
+        
+        <tr data-tag="События">
+            <td><span class="uni-badge">Amity</span></td>
+            <td><a href="https://amity.uz/oz/lists/events/conferences/smart-met_2026" target="_blank" class="title-link">Международная конференция по умному туризму, менеджменту и экономике (SMART-MET 2026)</a></td>
+            <td class="date-col">27.03.2026</td>
+            <td><span class="tag-pill tag-События">События</span></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            function filterBy(tag) {
+                const rows = document.querySelectorAll('#news-body tr');
+                const buttons = document.querySelectorAll('.filter-btn');
+                buttons.forEach(b => b.classList.remove('active'));
+                event.target.classList.add('active');
+
+                rows.forEach(row => {
+                    if (tag === 'all' || row.getAttribute('data-tag') === tag) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            function sortTable(n) {
+                var table = document.querySelector("table");
+                var rows = Array.from(table.rows).slice(1);
+                var sortedRows = rows.sort((a, b) => {
+                    return a.cells[n].innerText.localeCompare(b.cells[n].innerText);
+                });
+                const body = document.getElementById('news-body');
+                body.innerHTML = "";
+                sortedRows.forEach(row => body.appendChild(row));
+            }
+        </script>
+    </body>
+    </html>
+    
